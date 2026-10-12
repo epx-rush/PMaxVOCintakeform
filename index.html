@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VOC Pre-Work · Onboarding PMax</title>
+<meta name="description" content="Pre-work intake forms for the Onboarding PMax Project VOC sessions: Executive Leads and Stakeholders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== CONFIG: paste your Apps Script web app URL in the <script> CONFIG below ===== */
+  :root{
+    --bg:#0B0B0B; --surface:#151515; --surface-2:#1E1E1E; --border:#2C2C2C;
+    --text:#F4F4F4; --muted:#A6A6A6; --red:#D7141A; --red-bright:#FF4A50; --red-tint:rgba(215,20,26,.14);
+    --ok:#3FB950; --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:16px;line-height:1.5}
+  a{color:var(--red-bright)}
+  .topbar{background:#000;border-bottom:3px solid var(--red)}
+  .topbar-inner{max-width:880px;margin:0 auto;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+  .brand-mark{width:12px;height:28px;background:var(--red);border-radius:2px}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:12px;letter-spacing:.6px;text-transform:uppercase}
+  .due{font-size:13px;color:var(--muted);text-align:right}
+  .due b{color:var(--text)}
+  main{max-width:880px;margin:0 auto;padding:28px 16px 64px}
+  h1{font-size:28px;line-height:1.2;margin:0 0 8px}
+  h1 .accent{color:var(--red-bright)}
+  .lead{color:var(--muted);margin:0 0 24px;max-width:640px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .pick{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:border-color .15s, transform .15s}
+  .pick:hover,.pick:focus-visible{border-color:var(--red);transform:translateY(-2px);outline:none}
+  .pick h2{margin:0 0 6px;font-size:20px}
+  .pick p{margin:0 0 14px;color:var(--muted);font-size:14px}
+  .pick .go{color:var(--red-bright);font-weight:600;font-size:14px}
+  .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--red-bright);background:var(--red-tint);border:1px solid rgba(215,20,26,.4);border-radius:999px;padding:2px 10px;margin-bottom:10px}
+  .about{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:0 0 24px}
+  .about h2{font-size:13px;letter-spacing:.8px;text-transform:uppercase;color:var(--red-bright);margin:0 0 8px}
+  .about h2 + p{margin-top:0}
+  .about h2:not(:first-child){margin-top:16px}
+  .about p{margin:0 0 10px;color:#DADADA;max-width:72ch}
+  .about p:last-child{margin-bottom:0}
+  .about b{color:var(--red-bright)}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:0;padding:0;list-style:none}
+  .facts li{background:#000;border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--muted);min-width:0}
+  .facts b{display:block;color:var(--text);font-size:15px;margin-bottom:2px}
+  .rules{background:var(--surface);border:1px solid var(--border);border-left:none;border-radius:var(--radius);padding:16px 18px;margin:0 0 24px;position:relative;overflow:hidden}
+  .rules::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--red)}
+  .rules ul{margin:6px 0 0;padding-left:20px}
+  .rules li{margin:2px 0;color:#DADADA;font-size:14px}
+  .rules strong{color:var(--text)}
+  fieldset{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius);padding:18px;margin:0 0 16px}
+  legend{padding:0 6px;font-weight:700;font-size:15px}
+  legend .num{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:13px;margin-right:8px}
+  .hint{color:var(--muted);font-size:13px;margin:-2px 0 10px}
+  label{display:block;font-size:14px;font-weight:500;margin:0 0 6px}
+  .req::after{content:" *";color:var(--red-bright)}
+  input[type=text],textarea,select{width:100%;background:var(--surface-2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font:inherit;font-size:15px}
+  textarea{min-height:72px;resize:vertical}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-tint)}
+  input:disabled{opacity:.45}
+  .row{display:grid;gap:12px;margin-bottom:12px}
+  .row.two{grid-template-columns:1fr 1fr}
+  .grid-table{display:grid;gap:8px}
+  .grid-head{display:grid;gap:8px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .gt-3{grid-template-columns:44px 1fr 1fr}
+  .gt-4{grid-template-columns:1.2fr 1.2fr 1fr .8fr}
+  .gt-step{grid-template-columns:44px 1.6fr 1fr}
+  .rank{display:grid;place-items:center;background:#000;border:1px solid var(--border);border-radius:8px;font-weight:700;color:var(--red-bright)}
+  .counter{font-size:12px;color:var(--muted);text-align:right;margin-top:4px}
+  .counter.over{color:var(--red-bright);font-weight:600}
+  .checks{display:grid;gap:8px}
+  .check{display:flex;align-items:flex-start;gap:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;cursor:pointer}
+  .check:has(input:checked){border-color:var(--red);background:var(--red-tint)}
+  .check input[type=checkbox]{accent-color:var(--red);width:18px;height:18px;margin-top:2px;flex:none}
+  .check .grow{flex:1;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;min-width:0}
+  .check .why{width:100%}
+  .check .why{display:none}
+  .check:has(input:checked) .why{display:block}
+  .pills{display:flex;flex-wrap:wrap;gap:8px}
+  .pill{position:relative}
+  .pill input{position:absolute;opacity:0;inset:0}
+  .pill span{display:inline-block;padding:8px 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface-2);font-size:14px;cursor:pointer}
+  .pill input:checked + span{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+  .pill input:focus-visible + span{box-shadow:0 0 0 3px var(--red-tint)}
+  .parking{border-style:dashed}
+  .actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px}
+  .btn{appearance:none;border:none;border-radius:8px;padding:12px 22px;font:inherit;font-weight:700;cursor:pointer}
+  .btn-primary{background:var(--red);color:#fff}
+  .btn-primary:hover{background:#B81116}
+  .btn-primary:disabled{opacity:.6;cursor:wait}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+  .err{color:var(--red-bright);font-size:13px;margin-top:6px;display:none}
+  .invalid{border-color:var(--red-bright)!important}
+  .banner{border-radius:var(--radius);padding:14px 16px;margin:0 0 16px;font-size:14px;display:none}
+  .banner.error{display:block;background:var(--red-tint);border:1px solid var(--red)}
+  .done{text-align:center;padding:48px 16px}
+  .done .tick{width:64px;height:64px;border-radius:50%;background:var(--red);display:grid;place-items:center;margin:0 auto 16px}
+  .back{display:inline-block;margin-bottom:16px;color:var(--muted);text-decoration:none;font-size:14px}
+  .back:hover{color:var(--text)}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  [hidden]{display:none!important}
+  footer{max-width:880px;margin:0 auto;padding:0 16px 32px;color:#6E6E6E;font-size:12px}
+  @media (max-width:640px){
+    h1{font-size:23px}
+    .row.two{grid-template-columns:1fr}
+    .gt-4{grid-template-columns:1fr 1fr}
+    .grid-head.gt-4{display:none}
+    .gt-step{grid-template-columns:36px 1fr}
+    .gt-step .who{grid-column:2}
+    .grid-head.gt-step{display:none}
+    .due{display:none}
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span>
+      <div>Onboarding PMax Project<small>VOC Pre-Work · Phase 1</small></div>
+    </div>
+    <div class="due">Due <b>Fri, Oct 16, 2026</b><br>Sessions: week of Oct 19</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ LANDING ============ -->
+  <section id="view-home">
+    <h1>VOC pre-work: <span class="accent">tell us what you need</span> from onboarding</h1>
+    <p class="lead">Your answers let the VOC sessions start from facts instead of a blank page. Pick your form below.</p>
+    <div class="cards">
+      <a class="pick" href="#exec">
+        <span class="tag">About 10 minutes</span>
+        <h2>Executive Leads</h2>
+        <p>Teresa (CEO, optional), Dennis (COO), Mike, Justin and Marilyn. Six short questions on what success looks like and how you want to see it.</p>
+        <span class="go">Open form →</span>
+      </a>
+      <a class="pick" href="#stakeholder">
+        <span class="tag">About 15 minutes</span>
+        <h2>Stakeholders</h2>
+        <p>Stage owners and program partners. Your stage, hand-offs, what you need, and what you track today.</p>
+        <span class="go">Open form →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ EXECUTIVE LEADS ============ -->
+  <section id="view-exec" hidden>
+    <a class="back" href="#">← All forms</a>
+    <h1>Executive Leads <span class="accent">pre-work</span></h1>
+    <p class="lead">About 10 minutes · due Fri, Oct 16</p>
+    <section class="about" aria-label="About this form">
+      <p><b>The project objective:</b> Create data-driven KPMs and KPIs at each stage of the hiring, training and onboarding process, so outcomes are transparent, consistently reported in a dashboard, and (in Phase 2 and ongoing) easier to root-cause when they fall short of our efficiency and profitability goals.</p>
+      <p><b>The purpose of this form:</b> Capture your onboarding metrics needs (VOC) and turn them into CTQs (Critical to Quality) that will be shown in the dashboard.</p>
+    </section>
+    <div class="rules">
+      <strong>How to answer</strong>
+      <ul>
+        <li>Keep each answer to <strong>one line</strong>. Boxes have a character limit.</li>
+        <li>Where we ask for 3, give <strong>only 3</strong>.</li>
+        <li>Phase 1 only <strong>measures</strong> onboarding, from TM recruiting to 30 days in production. Ideas about causes, training, coaching or fixes go in the <strong>Parking lot</strong> at the end, for Phase 2.</li>
+      </ul>
+    </div>
+    <div class="banner" id="exec-banner" role="alert"></div>
+
+    <form id="form-exec" novalidate data-sheet="exec">
+      <div class="hp" aria-hidden="true"><label>Leave blank <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+      <fieldset>
+        <legend>About you</legend>
+        <div class="row two">
+          <div><label class="req" for="ex-name">Name</label><input type="text" id="ex-name" name="name" maxlength="80" required autocomplete="name"></div>
+          <div><label class="req" for="ex-role">Role</label><input type="text" id="ex-role" name="role" maxlength="80" required></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">1</span>Success at 6 months</legend>
+        <p class="hint">In one sentence (25 words max): what does a successful new hire look like after 6 months?</p>
+        <textarea name="success_6mo" id="ex-q1" required data-maxwords="25" rows="2" aria-label="Success at 6 months"></textarea>
+        <div class="counter" data-for="ex-q1"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">2</span>Your top 3 outcomes, ranked</legend>
+        <p class="hint">For each, name the one number that would tell you it's working.</p>
+        <div class="grid-head gt-3"><span>Rank</span><span>Outcome</span><span>The one number that shows it</span></div>
+        <div class="grid-table">
+          <div class="grid-table gt-3"><div class="rank">1</div><input type="text" name="outcome_1" maxlength="120" required aria-label="Outcome 1"><input type="text" name="measure_1" maxlength="100" required aria-label="Measure for outcome 1"></div>
+          <div class="grid-table gt-3"><div class="rank">2</div><input type="text" name="outcome_2" maxlength="120" aria-label="Outcome 2"><input type="text" name="measure_2" maxlength="100" aria-label="Measure for outcome 2"></div>
+          <div class="grid-table gt-3"><div class="rank">3</div><input type="text" name="outcome_3" maxlength="120" aria-label="Outcome 3"><input type="text" name="measure_3" maxlength="100" aria-label="Measure for outcome 3"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">3</span>One decision</legend>
+        <p class="hint">What is the ONE decision you would make differently if you had this dashboard?</p>
+        <input type="text" name="one_decision" id="ex-q3" maxlength="160" required aria-label="One decision">
+        <div class="counter" data-for="ex-q3"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">4</span>Stages that worry you most</legend>
+        <p class="hint">Tick <b>up to 2</b>, then give one line on why.</p>
+        <div class="checks" id="ex-stages" data-max="2"></div>
+        <div class="err" id="ex-stages-err">Pick no more than 2 stages, and add a one-line reason for each.</div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">5</span>How you want to see results</legend>
+        <p class="hint">Tick all that apply in each row.</p>
+        <label class="req">How often</label>
+        <div class="pills" role="group" aria-label="How often">
+          <label class="pill"><input type="checkbox" name="view_frequency" value="Monthly summary" required><span>Monthly summary</span></label>
+          <label class="pill"><input type="checkbox" name="view_frequency" value="Bi-weekly, at the Operations meeting"><span>Bi-weekly, at the Ops meeting</span></label>
+        </div>
+        <label class="req" style="margin-top:14px">Level of detail</label>
+        <div class="pills" role="group" aria-label="Level of detail">
+          <label class="pill"><input type="checkbox" name="view_detail" value="Company total" required><span>Company total</span></label>
+          <label class="pill"><input type="checkbox" name="view_detail" value="By program"><span>By program</span></label>
+          <label class="pill"><input type="checkbox" name="view_detail" value="By site"><span>By site</span></label>
+          <label class="pill"><input type="checkbox" name="view_detail" value="By recruiter, trainer or leader"><span>By recruiter, trainer or leader</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">6</span>Sign-off blocker</legend>
+        <p class="hint">What would make you NOT sign off on the Phase 1 dashboard? (one line)</p>
+        <input type="text" name="signoff_blocker" id="ex-q6" maxlength="160" required aria-label="Sign-off blocker">
+        <div class="counter" data-for="ex-q6"></div>
+      </fieldset>
+
+      <fieldset class="parking">
+        <legend>Parking lot (Phase 2)</legend>
+        <p class="hint">Ideas on root causes, training, coaching or fixes. We keep every one for Phase 2. One idea per line.</p>
+        <textarea name="parking_lot" maxlength="1000" rows="3" aria-label="Parking lot ideas"></textarea>
+      </fieldset>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="#">Cancel</a>
+        <button class="btn btn-primary" type="submit">Submit pre-work</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============ STAKEHOLDERS ============ -->
+  <section id="view-stakeholder" hidden>
+    <a class="back" href="#">← All forms</a>
+    <h1>Stakeholder <span class="accent">pre-work</span></h1>
+    <p class="lead">About 15 minutes · due Fri, Oct 16</p>
+    <section class="about" aria-label="About this form">
+      <p><b>The project objective:</b> Create data-driven KPMs and KPIs at each stage of the hiring, training and onboarding process, so outcomes are transparent, consistently reported in a dashboard, and (in Phase 2 and ongoing) easier to root-cause when they fall short of our efficiency and profitability goals.</p>
+      <p><b>The purpose of this form:</b> Capture your onboarding metrics needs (VOC) and turn them into CTQs (Critical to Quality) that will be shown in the dashboard.</p>
+    </section>
+    <div class="rules">
+      <strong>How to answer</strong>
+      <ul>
+        <li>Answer for the stage(s) you own or work in most. Keep each answer to <strong>one line</strong>.</li>
+        <li><strong>Facts and recent examples</strong> beat general opinions.</li>
+        <li>Phase 1 only <strong>measures</strong> onboarding. Ideas about causes or fixes go in the <strong>Parking lot</strong> at the end, for Phase 2.</li>
+      </ul>
+    </div>
+    <div class="banner" id="stakeholder-banner" role="alert"></div>
+
+    <form id="form-stakeholder" novalidate data-sheet="stakeholder">
+      <div class="hp" aria-hidden="true"><label>Leave blank <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+      <fieldset>
+        <legend>About you</legend>
+        <div class="row two">
+          <div><label class="req" for="st-name">Name</label><input type="text" id="st-name" name="name" maxlength="80" required autocomplete="name"></div>
+          <div><label class="req" for="st-role">Role</label><input type="text" id="st-role" name="role" maxlength="80" required></div>
+        </div>
+        <label class="req">Which stage(s) do you own or work in?</label>
+        <div class="checks" id="st-stages"></div>
+        <div class="err" id="st-stages-err">Tick at least one stage.</div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">1</span>Your stage in 3 to 5 steps</legend>
+        <p class="hint">Start to finish. The first 3 are required.</p>
+        <div class="grid-head gt-step"><span>Step</span><span>What happens</span><span>Who does it</span></div>
+        <div class="grid-table" id="st-steps"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">2</span>Hand-offs</legend>
+        <p class="hint">What does a "ready" person look like coming in, and going out?</p>
+        <div class="row">
+          <div><label class="req" for="st-in">Coming into my stage</label><input type="text" id="st-in" name="ready_in" maxlength="160" required></div>
+          <div><label class="req" for="st-out">Leaving my stage</label><input type="text" id="st-out" name="ready_out" maxlength="160" required></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">3</span>Your top 3 needs from the stage before yours</legend>
+        <p class="hint">These become CTQs. How could we measure each?</p>
+        <div class="grid-head gt-3"><span>#</span><span>What I need</span><span>How we could measure it</span></div>
+        <div class="grid-table">
+          <div class="grid-table gt-3"><div class="rank">1</div><input type="text" name="need_1" maxlength="120" required aria-label="Need 1"><input type="text" name="need_measure_1" maxlength="100" aria-label="How to measure need 1"></div>
+          <div class="grid-table gt-3"><div class="rank">2</div><input type="text" name="need_2" maxlength="120" aria-label="Need 2"><input type="text" name="need_measure_2" maxlength="100" aria-label="How to measure need 2"></div>
+          <div class="grid-table gt-3"><div class="rank">3</div><input type="text" name="need_3" maxlength="120" aria-label="Need 3"><input type="text" name="need_measure_3" maxlength="100" aria-label="How to measure need 3"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">4</span>What you track today</legend>
+        <p class="hint">Up to 3 measures. Leave blank if you don't track anything yet; that's useful to know too.</p>
+        <div class="grid-head gt-4"><span>Measure</span><span>Where it lives</span><span>Who updates it</span><span>How often</span></div>
+        <div class="grid-table" id="st-track"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">5</span>Biggest pain point</legend>
+        <p class="hint">Your single biggest pain point today, with one example from the last 3 months.</p>
+        <div class="row">
+          <div><label class="req" for="st-pain">Pain point</label><input type="text" id="st-pain" name="pain_point" maxlength="160" required></div>
+          <div><label class="req" for="st-ex">Example</label><textarea id="st-ex" name="pain_example" maxlength="400" rows="2" required></textarea></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="num">6</span>Better data, better decision</legend>
+        <p class="hint">What decision would you make differently if you had better data? (one line)</p>
+        <input type="text" name="better_data_decision" id="st-q6" maxlength="160" required aria-label="Decision with better data">
+        <div class="counter" data-for="st-q6"></div>
+      </fieldset>
+
+      <fieldset class="parking">
+        <legend>Parking lot (Phase 2)</legend>
+        <p class="hint">Ideas on root causes, training, coaching or process fixes. One idea per line.</p>
+        <textarea name="parking_lot" maxlength="1000" rows="3" aria-label="Parking lot ideas"></textarea>
+      </fieldset>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="#">Cancel</a>
+        <button class="btn btn-primary" type="submit">Submit pre-work</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============ DONE ============ -->
+  <section id="view-done" hidden>
+    <div class="done">
+      <div class="tick" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
+      <h1>Thank you, <span class="accent" id="done-name">your answers are in</span></h1>
+      <p class="lead" style="margin:0 auto">We'll use them to prepare the VOC session in the week of Oct 19. Nothing else is needed from you before then.</p>
+    </div>
+  </section>
+</main>
+<footer>Onboarding PMax Project 2026 · Phase 1 · Responses are saved to the project team's Google Sheet.</footer>
+
+<script>
+/* ================= CONFIG ================= */
+const CONFIG = {
+  // Paste the Web app URL from Apps Script (Deploy > New deployment > Web app). Ends in /exec
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbw_TOfsgO46AV8XLwSlZU2PRtJxM1OklIyld7-EShjNgwf5xX-bVDy50TupLo-jZmGkZg/exec",
+};
+/* ========================================== */
+
+const STAGES = [
+  "Recruiting (sourcing, interviewing, assessments, hiring)",
+  "Initial EPX Onboarding",
+  "GCT",
+  "Program Interviewing & TM Selection",
+  "Product Specific Training (PST)",
+  "Academy Bay",
+  "Production (first 30 days)",
+];
+
+// ---------- build repeated fields ----------
+const exStages = document.getElementById("ex-stages");
+STAGES.forEach((s, i) => {
+  const id = "ex-stage-" + i;
+  exStages.insertAdjacentHTML("beforeend",
+    `<label class="check" for="${id}"><input type="checkbox" id="${id}" value="${s}" data-why="ex-why-${i}">
+      <span class="grow"><span>${s}</span>
+      <input type="text" class="why" id="ex-why-${i}" maxlength="140" placeholder="Why, in one line" aria-label="Why: ${s}"></span></label>`);
+});
+const stStages = document.getElementById("st-stages");
+STAGES.forEach((s, i) => {
+  const id = "st-stage-" + i;
+  stStages.insertAdjacentHTML("beforeend",
+    `<label class="check" for="${id}"><input type="checkbox" id="${id}" name="stages" value="${s}"><span class="grow">${s}</span></label>`);
+});
+const steps = document.getElementById("st-steps");
+for (let i = 1; i <= 5; i++) {
+  const req = i <= 3 ? "required" : "";
+  steps.insertAdjacentHTML("beforeend",
+    `<div class="grid-table gt-step"><div class="rank">${i}</div>
+      <input type="text" name="step_${i}_what" maxlength="140" ${req} aria-label="Step ${i}: what happens" placeholder="What happens">
+      <input type="text" class="who" name="step_${i}_who" maxlength="60" ${req} aria-label="Step ${i}: who does it" placeholder="Who">
+    </div>`);
+}
+const track = document.getElementById("st-track");
+for (let i = 1; i <= 3; i++) {
+  track.insertAdjacentHTML("beforeend",
+    `<div class="grid-table gt-4">
+      <input type="text" name="track_${i}_measure" maxlength="80" aria-label="Measure ${i}" placeholder="Measure">
+      <input type="text" name="track_${i}_where" maxlength="80" aria-label="Where measure ${i} lives" placeholder="System or file">
+      <input type="text" name="track_${i}_who" maxlength="60" aria-label="Who updates measure ${i}" placeholder="Who">
+      <input type="text" name="track_${i}_freq" maxlength="40" aria-label="How often measure ${i}" placeholder="How often">
+    </div>`);
+}
+
+// ---------- limit exec stage picks to 2 ----------
+exStages.addEventListener("change", () => {
+  const boxes = [...exStages.querySelectorAll("input[type=checkbox]")];
+  const n = boxes.filter(b => b.checked).length;
+  boxes.forEach(b => { if (!b.checked) b.disabled = n >= 2; });
+  document.getElementById("ex-stages-err").style.display = "none";
+});
+
+// ---------- counters ----------
+const words = s => (s.trim().match(/\S+/g) || []).length;
+document.querySelectorAll(".counter").forEach(c => {
+  const el = document.getElementById(c.dataset.for);
+  const update = () => {
+    const maxW = el.dataset.maxwords;
+    if (maxW) {
+      const n = words(el.value);
+      c.textContent = `${n} / ${maxW} words`;
+      c.classList.toggle("over", n > +maxW);
+    } else {
+      c.textContent = `${el.value.length} / ${el.maxLength} characters`;
+    }
+  };
+  el.addEventListener("input", update); update();
+});
+
+// ---------- routing ----------
+const views = ["home", "exec", "stakeholder", "done"];
+function route() {
+  const h = (location.hash || "#").slice(1) || "home";
+  const v = views.includes(h) ? h : "home";
+  views.forEach(x => document.getElementById("view-" + x).hidden = x !== v);
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route); route();
+
+// ---------- validation + payload ----------
+function validate(form) {
+  let ok = true, first = null;
+  form.querySelectorAll(".invalid").forEach(e => e.classList.remove("invalid"));
+  form.querySelectorAll("[required]").forEach(el => {
+    if (el.type === "radio" || el.type === "checkbox") {
+      if (!form.querySelector(`input[name="${el.name}"]:checked`)) {
+        ok = false; el.closest(".pills").querySelectorAll("span").forEach(s => s.classList.add("invalid"));
+        first = first || el.closest("fieldset");
+      }
+    } else if (!el.value.trim()) { ok = false; el.classList.add("invalid"); first = first || el; }
+  });
+  form.querySelectorAll("[data-maxwords]").forEach(el => {
+    if (words(el.value) > +el.dataset.maxwords) { ok = false; el.classList.add("invalid"); first = first || el; }
+  });
+  if (form.id === "form-exec") {
+    const picked = [...exStages.querySelectorAll("input[type=checkbox]:checked")];
+    const missingWhy = picked.some(b => !document.getElementById(b.dataset.why).value.trim());
+    if (picked.length > 2 || missingWhy) {
+      ok = false; document.getElementById("ex-stages-err").style.display = "block";
+      first = first || exStages;
+    }
+  } else {
+    if (!stStages.querySelector("input:checked")) {
+      ok = false; document.getElementById("st-stages-err").style.display = "block";
+      first = first || stStages;
+    }
+  }
+  if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
+  return ok;
+}
+stStages.addEventListener("change", () => document.getElementById("st-stages-err").style.display = "none");
+
+function payload(form) {
+  const data = { form: form.dataset.sheet };
+  const fd = new FormData(form);
+  for (const [k, v] of fd.entries()) {
+    if (k in data && k !== "form") data[k] = data[k] + "; " + String(v).trim();
+    else data[k] = String(v).trim();
+  }
+  if (form.id === "form-exec") {
+    const picked = [...exStages.querySelectorAll("input[type=checkbox]:checked")];
+    picked.forEach((b, i) => {
+      data["concern_stage_" + (i + 1)] = b.value;
+      data["concern_why_" + (i + 1)] = document.getElementById(b.dataset.why).value.trim();
+    });
+  }
+  return data;
+}
+
+async function submit(e) {
+  e.preventDefault();
+  const form = e.target, banner = document.getElementById(form.dataset.sheet + "-banner");
+  banner.className = "banner"; banner.textContent = "";
+  if (!validate(form)) return;
+  if (form.website.value) return; // bot trap
+  if (!/^https:\/\/script\.google\.com\//.test(CONFIG.SCRIPT_URL)) {
+    banner.className = "banner error";
+    banner.textContent = "This form isn't connected yet. Please let the project team know.";
+    return;
+  }
+  const btn = form.querySelector("button[type=submit]");
+  btn.disabled = true; btn.textContent = "Submitting…";
+  try {
+    const data = payload(form);
+    const res = await fetch(CONFIG.SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok || out.ok === false) throw new Error(out.error || "Request failed");
+    document.getElementById("done-name").textContent = (data.name || "").split(" ")[0] || "your answers are in";
+    form.reset(); location.hash = "#done";
+  } catch (err) {
+    banner.className = "banner error";
+    banner.textContent = "Something went wrong saving your answers. Please try again in a minute. Nothing you typed was lost.";
+  } finally {
+    btn.disabled = false; btn.textContent = "Submit pre-work";
+  }
+}
+document.querySelectorAll("form").forEach(f => f.addEventListener("input", e => e.target.classList.remove("invalid")));
+document.querySelectorAll("form").forEach(f => f.addEventListener("change", e => {
+  if (e.target.type === "radio" || e.target.closest(".pills")) e.target.closest(".pills").querySelectorAll(".invalid").forEach(x => x.classList.remove("invalid"));
+}));
+document.getElementById("form-exec").addEventListener("submit", submit);
+document.getElementById("form-stakeholder").addEventListener("submit", submit);
+</script>
+</body>
+</html>
