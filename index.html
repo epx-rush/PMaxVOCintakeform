@@ -69,6 +69,14 @@
   .gt-4{grid-template-columns:1.2fr 1.2fr 1fr .8fr}
   .gt-step{grid-template-columns:44px 1.6fr 1fr}
   .rank{display:grid;place-items:center;background:#000;border:1px solid var(--border);border-radius:8px;font-weight:700;color:var(--red-bright)}
+  .explain{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin:0 0 14px;font-size:14px;color:#DADADA}
+  .explain p{margin:0 0 8px}
+  .explain b{color:var(--text)}
+  .example{border-top:1px dashed var(--border);margin-top:10px;padding-top:10px;display:grid;gap:6px}
+  .ex-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .ex-row{display:grid;grid-template-columns:28px 1fr 1fr;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
+  .ex-row .rank{height:24px;font-size:12px}
+  @media (max-width:640px){.ex-row{grid-template-columns:28px 1fr}.ex-row span:last-child{grid-column:2}}
   .counter{font-size:12px;color:var(--muted);text-align:right;margin-top:4px}
   .counter.over{color:var(--red-bright);font-weight:600}
   .checks{display:grid;gap:8px}
@@ -159,7 +167,7 @@
     <div class="rules">
       <strong>How to answer</strong>
       <ul>
-        <li>Keep each answer to <strong>one line</strong>. Boxes have a character limit.</li>
+        <li>Keep answers <strong>short and specific</strong>; a line or two is usually enough.</li>
         <li>Where we ask for 3, give <strong>only 3</strong>.</li>
         <li>Phase 1 only <strong>measures</strong> onboarding, from TM recruiting to 30 days in production. Ideas about causes, training, coaching or fixes go in the <strong>Parking lot</strong> at the end, for Phase 2.</li>
       </ul>
@@ -172,34 +180,44 @@
       <fieldset>
         <legend>About you</legend>
         <div class="row two">
-          <div><label class="req" for="ex-name">Name</label><input type="text" id="ex-name" name="name" maxlength="80" required autocomplete="name"></div>
-          <div><label class="req" for="ex-role">Role</label><input type="text" id="ex-role" name="role" maxlength="80" required></div>
+          <div><label class="req" for="ex-name">Name</label><input type="text" id="ex-name" name="name" required autocomplete="name"></div>
+          <div><label class="req" for="ex-role">Role</label><input type="text" id="ex-role" name="role" required></div>
         </div>
       </fieldset>
 
       <fieldset>
         <legend><span class="num">1</span>Success at 6 months</legend>
-        <p class="hint">In one sentence (25 words max): what does a successful new hire look like after 6 months?</p>
-        <textarea name="success_6mo" id="ex-q1" required data-maxwords="25" rows="2" aria-label="Success at 6 months"></textarea>
+        <p class="hint">In one sentence (aim for about 25 words): what does a successful new hire look like after 6 months?</p>
+        <textarea name="success_6mo" id="ex-q1" required data-targetwords="25" rows="2" aria-label="Success at 6 months"></textarea>
         <div class="counter" data-for="ex-q1"></div>
       </fieldset>
 
       <fieldset>
         <legend><span class="num">2</span>Your top 3 outcomes, ranked</legend>
-        <p class="hint">For each, name the one number that would tell you it's working.</p>
+        <div class="explain">
+          <p><b>What we're asking:</b> When onboarding works well, what results do you expect to see by the time a new hire has been with us about 6 months? List the 3 that matter most to you, most important first.</p>
+          <p><b>Outcome</b> = a result you want, not an activity or a fix. Write "new hires stay with us", not "improve the training".<br>
+          <b>The one number that shows it</b> = how you'd know it's happening: something we can count, such as a %, a rate, a score or a number of days. It's fine if we don't track it today.</p>
+          <div class="example">
+            <span class="ex-label">Examples only. Use your own priorities.</span>
+            <div class="ex-row"><span class="rank">1</span><span>New hires stay with us</span><span>% still employed at 6 months</span></div>
+            <div class="ex-row"><span class="rank">2</span><span>New hires are ready for production on time</span><span>% who finish Academy Bay on schedule</span></div>
+            <div class="ex-row"><span class="rank">3</span><span>Programs trust the quality of trainees we send</span><span>Average QA score in the first 30 days of production</span></div>
+          </div>
+          <p class="hint" style="margin:10px 0 0">Ideas about why something isn't working or how to fix it go in the Parking lot at the end.</p>
+        </div>
         <div class="grid-head gt-3"><span>Rank</span><span>Outcome</span><span>The one number that shows it</span></div>
         <div class="grid-table">
-          <div class="grid-table gt-3"><div class="rank">1</div><input type="text" name="outcome_1" maxlength="120" required aria-label="Outcome 1"><input type="text" name="measure_1" maxlength="100" required aria-label="Measure for outcome 1"></div>
-          <div class="grid-table gt-3"><div class="rank">2</div><input type="text" name="outcome_2" maxlength="120" aria-label="Outcome 2"><input type="text" name="measure_2" maxlength="100" aria-label="Measure for outcome 2"></div>
-          <div class="grid-table gt-3"><div class="rank">3</div><input type="text" name="outcome_3" maxlength="120" aria-label="Outcome 3"><input type="text" name="measure_3" maxlength="100" aria-label="Measure for outcome 3"></div>
+          <div class="grid-table gt-3"><div class="rank">1</div><input type="text" name="outcome_1" required aria-label="Outcome 1" placeholder="Result you want"><input type="text" name="measure_1" required aria-label="Measure for outcome 1" placeholder="How we'd measure it"></div>
+          <div class="grid-table gt-3"><div class="rank">2</div><input type="text" name="outcome_2" aria-label="Outcome 2"><input type="text" name="measure_2" aria-label="Measure for outcome 2"></div>
+          <div class="grid-table gt-3"><div class="rank">3</div><input type="text" name="outcome_3" aria-label="Outcome 3"><input type="text" name="measure_3" aria-label="Measure for outcome 3"></div>
         </div>
       </fieldset>
 
       <fieldset>
         <legend><span class="num">3</span>One decision</legend>
         <p class="hint">What is the ONE decision you would make differently if you had this dashboard?</p>
-        <input type="text" name="one_decision" id="ex-q3" maxlength="160" required aria-label="One decision">
-        <div class="counter" data-for="ex-q3"></div>
+        <input type="text" name="one_decision" id="ex-q3" required aria-label="One decision">
       </fieldset>
 
       <fieldset>
@@ -229,14 +247,13 @@
       <fieldset>
         <legend><span class="num">6</span>Sign-off blocker</legend>
         <p class="hint">What would make you NOT sign off on the Phase 1 dashboard? (one line)</p>
-        <input type="text" name="signoff_blocker" id="ex-q6" maxlength="160" required aria-label="Sign-off blocker">
-        <div class="counter" data-for="ex-q6"></div>
+        <input type="text" name="signoff_blocker" id="ex-q6" required aria-label="Sign-off blocker">
       </fieldset>
 
       <fieldset class="parking">
         <legend>Parking lot (Phase 2)</legend>
         <p class="hint">Ideas on root causes, training, coaching or fixes. We keep every one for Phase 2. One idea per line.</p>
-        <textarea name="parking_lot" maxlength="1000" rows="3" aria-label="Parking lot ideas"></textarea>
+        <textarea name="parking_lot" rows="3" aria-label="Parking lot ideas"></textarea>
       </fieldset>
 
       <div class="actions">
@@ -271,8 +288,8 @@
       <fieldset>
         <legend>About you</legend>
         <div class="row two">
-          <div><label class="req" for="st-name">Name</label><input type="text" id="st-name" name="name" maxlength="80" required autocomplete="name"></div>
-          <div><label class="req" for="st-role">Role</label><input type="text" id="st-role" name="role" maxlength="80" required></div>
+          <div><label class="req" for="st-name">Name</label><input type="text" id="st-name" name="name" required autocomplete="name"></div>
+          <div><label class="req" for="st-role">Role</label><input type="text" id="st-role" name="role" required></div>
         </div>
         <label class="req">Which stage(s) do you own or work in?</label>
         <div class="checks" id="st-stages"></div>
@@ -290,8 +307,8 @@
         <legend><span class="num">2</span>Hand-offs</legend>
         <p class="hint">What does a "ready" person look like coming in, and going out?</p>
         <div class="row">
-          <div><label class="req" for="st-in">Coming into my stage</label><input type="text" id="st-in" name="ready_in" maxlength="160" required></div>
-          <div><label class="req" for="st-out">Leaving my stage</label><input type="text" id="st-out" name="ready_out" maxlength="160" required></div>
+          <div><label class="req" for="st-in">Coming into my stage</label><input type="text" id="st-in" name="ready_in" required></div>
+          <div><label class="req" for="st-out">Leaving my stage</label><input type="text" id="st-out" name="ready_out" required></div>
         </div>
       </fieldset>
 
@@ -300,9 +317,9 @@
         <p class="hint">These become CTQs. How could we measure each?</p>
         <div class="grid-head gt-3"><span>#</span><span>What I need</span><span>How we could measure it</span></div>
         <div class="grid-table">
-          <div class="grid-table gt-3"><div class="rank">1</div><input type="text" name="need_1" maxlength="120" required aria-label="Need 1"><input type="text" name="need_measure_1" maxlength="100" aria-label="How to measure need 1"></div>
-          <div class="grid-table gt-3"><div class="rank">2</div><input type="text" name="need_2" maxlength="120" aria-label="Need 2"><input type="text" name="need_measure_2" maxlength="100" aria-label="How to measure need 2"></div>
-          <div class="grid-table gt-3"><div class="rank">3</div><input type="text" name="need_3" maxlength="120" aria-label="Need 3"><input type="text" name="need_measure_3" maxlength="100" aria-label="How to measure need 3"></div>
+          <div class="grid-table gt-3"><div class="rank">1</div><input type="text" name="need_1" required aria-label="Need 1"><input type="text" name="need_measure_1" aria-label="How to measure need 1"></div>
+          <div class="grid-table gt-3"><div class="rank">2</div><input type="text" name="need_2" aria-label="Need 2"><input type="text" name="need_measure_2" aria-label="How to measure need 2"></div>
+          <div class="grid-table gt-3"><div class="rank">3</div><input type="text" name="need_3" aria-label="Need 3"><input type="text" name="need_measure_3" aria-label="How to measure need 3"></div>
         </div>
       </fieldset>
 
@@ -317,22 +334,21 @@
         <legend><span class="num">5</span>Biggest pain point</legend>
         <p class="hint">Your single biggest pain point today, with one example from the last 3 months.</p>
         <div class="row">
-          <div><label class="req" for="st-pain">Pain point</label><input type="text" id="st-pain" name="pain_point" maxlength="160" required></div>
-          <div><label class="req" for="st-ex">Example</label><textarea id="st-ex" name="pain_example" maxlength="400" rows="2" required></textarea></div>
+          <div><label class="req" for="st-pain">Pain point</label><input type="text" id="st-pain" name="pain_point" required></div>
+          <div><label class="req" for="st-ex">Example</label><textarea id="st-ex" name="pain_example" rows="2" required></textarea></div>
         </div>
       </fieldset>
 
       <fieldset>
         <legend><span class="num">6</span>Better data, better decision</legend>
         <p class="hint">What decision would you make differently if you had better data? (one line)</p>
-        <input type="text" name="better_data_decision" id="st-q6" maxlength="160" required aria-label="Decision with better data">
-        <div class="counter" data-for="st-q6"></div>
+        <input type="text" name="better_data_decision" id="st-q6" required aria-label="Decision with better data">
       </fieldset>
 
       <fieldset class="parking">
         <legend>Parking lot (Phase 2)</legend>
         <p class="hint">Ideas on root causes, training, coaching or process fixes. One idea per line.</p>
-        <textarea name="parking_lot" maxlength="1000" rows="3" aria-label="Parking lot ideas"></textarea>
+        <textarea name="parking_lot" rows="3" aria-label="Parking lot ideas"></textarea>
       </fieldset>
 
       <div class="actions">
@@ -378,7 +394,7 @@ STAGES.forEach((s, i) => {
   exStages.insertAdjacentHTML("beforeend",
     `<label class="check" for="${id}"><input type="checkbox" id="${id}" value="${s}" data-why="ex-why-${i}">
       <span class="grow"><span>${s}</span>
-      <input type="text" class="why" id="ex-why-${i}" maxlength="140" placeholder="Why, in one line" aria-label="Why: ${s}"></span></label>`);
+      <input type="text" class="why" id="ex-why-${i}" placeholder="Why, in one line" aria-label="Why: ${s}"></span></label>`);
 });
 const stStages = document.getElementById("st-stages");
 STAGES.forEach((s, i) => {
@@ -391,18 +407,18 @@ for (let i = 1; i <= 5; i++) {
   const req = i <= 3 ? "required" : "";
   steps.insertAdjacentHTML("beforeend",
     `<div class="grid-table gt-step"><div class="rank">${i}</div>
-      <input type="text" name="step_${i}_what" maxlength="140" ${req} aria-label="Step ${i}: what happens" placeholder="What happens">
-      <input type="text" class="who" name="step_${i}_who" maxlength="60" ${req} aria-label="Step ${i}: who does it" placeholder="Who">
+      <input type="text" name="step_${i}_what" ${req} aria-label="Step ${i}: what happens" placeholder="What happens">
+      <input type="text" class="who" name="step_${i}_who" ${req} aria-label="Step ${i}: who does it" placeholder="Who">
     </div>`);
 }
 const track = document.getElementById("st-track");
 for (let i = 1; i <= 3; i++) {
   track.insertAdjacentHTML("beforeend",
     `<div class="grid-table gt-4">
-      <input type="text" name="track_${i}_measure" maxlength="80" aria-label="Measure ${i}" placeholder="Measure">
-      <input type="text" name="track_${i}_where" maxlength="80" aria-label="Where measure ${i} lives" placeholder="System or file">
-      <input type="text" name="track_${i}_who" maxlength="60" aria-label="Who updates measure ${i}" placeholder="Who">
-      <input type="text" name="track_${i}_freq" maxlength="40" aria-label="How often measure ${i}" placeholder="How often">
+      <input type="text" name="track_${i}_measure" aria-label="Measure ${i}" placeholder="Measure">
+      <input type="text" name="track_${i}_where" aria-label="Where measure ${i} lives" placeholder="System or file">
+      <input type="text" name="track_${i}_who" aria-label="Who updates measure ${i}" placeholder="Who">
+      <input type="text" name="track_${i}_freq" aria-label="How often measure ${i}" placeholder="How often">
     </div>`);
 }
 
@@ -419,11 +435,10 @@ const words = s => (s.trim().match(/\S+/g) || []).length;
 document.querySelectorAll(".counter").forEach(c => {
   const el = document.getElementById(c.dataset.for);
   const update = () => {
-    const maxW = el.dataset.maxwords;
+    const maxW = el.dataset.targetwords;
     if (maxW) {
       const n = words(el.value);
-      c.textContent = `${n} / ${maxW} words`;
-      c.classList.toggle("over", n > +maxW);
+      c.textContent = `${n} words (aim for about ${maxW})`;
     } else {
       c.textContent = `${el.value.length} / ${el.maxLength} characters`;
     }
@@ -452,9 +467,6 @@ function validate(form) {
         first = first || el.closest("fieldset");
       }
     } else if (!el.value.trim()) { ok = false; el.classList.add("invalid"); first = first || el; }
-  });
-  form.querySelectorAll("[data-maxwords]").forEach(el => {
-    if (words(el.value) > +el.dataset.maxwords) { ok = false; el.classList.add("invalid"); first = first || el; }
   });
   if (form.id === "form-exec") {
     const picked = [...exStages.querySelectorAll("input[type=checkbox]:checked")];
